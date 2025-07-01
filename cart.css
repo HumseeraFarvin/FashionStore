@@ -1,0 +1,119 @@
+/* Cart page styles */
+
+body {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+.item-name {
+  flex: 1;
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-controls button {
+  background-color: #ff4081;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1;
+  user-select: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.item-controls button:hover {
+  background-color: #e03573;
+}
+
+.item-qty {
+  min-width: 25px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.item-subtotal {
+  font-weight: bold;
+}
+
+.total {
+  font-weight: bold;
+  text-align: right;
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.empty-message {
+  text-align: center;
+  margin-top: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.clear-btn {
+  margin-top: 20px;
+  display: block;
+  background-color: #ff4081;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.clear-btn:hover {
+  background-color: #e03573;
+}
+
+/* Header/Nav styling (optional override if you want) */
+header nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 15px 0;
+  background: #333;
+  margin-bottom: 30px;
+  border-radius: 5px;
+}
+
+header nav ul li {
+  margin: 0 15px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+header nav ul li a:hover {
+  text-decoration: underline;
+}

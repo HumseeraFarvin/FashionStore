@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopping Cart - Fashion Store</title>
+  <style>
+    /* Basic page styling */
+    body {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: Arial, sans-serif;
+    }
+    header nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 15px 0;
+      background: #333;
+      margin-bottom: 30px;
+      border-radius: 5px;
+    }
+    header nav ul li {
+      margin: 0 15px;
+    }
+    header nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    header nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 1rem;
+    }
+    .item-name {
+      flex: 1;
+    }
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .item-controls button {
+      background-color: #ff4081;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1;
+      user-select: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .item-controls button:hover {
+      background-color: #e03573;
+    }
+    .item-qty {
+      min-width: 25px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .item-subtotal {
+      font-weight: bold;
+    }
+
+    .total {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    .empty-message {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+    .clear-btn {
+      margin-top: 20px;
+      display: block;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .clear-btn:hover {
+      background-color: #e03573;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header/Nav -->
+  <header>
+    <nav>
+      <ul>
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="men.html">Men</a></li>
+        <li><a href="women.html">Women</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="cart.html">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h2>Your Cart</h2>
+
+  <div id="cart-items"></div>
+
+  <p class="total">Total: $<span id="cart-total">0.00</span></p>
+
+  <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+
+  <script>
+    // Load cart from localStorage or empty array if none
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalSpan = document.getElementById('cart-total');
+    const cartCountSpan = document.getElementById('cart-count');
+
+    // Render cart UI
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p class="empty-message">Your cart is empty.</p>';
+        totalSpan.textContent = '0.00';
+        cartCountSpan.textContent = '0';
+        return;
+      }
+
+      let total = 0;
+      let totalQuantity = 0;
+
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        totalQuantity += item.quantity;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div class="item-name">${item.name}</div>
+          <div class="item-controls">
+            <button onclick="updateQuantity(${index}, -1)">−</button>
+            <span class="item-qty">${item.quantity}</span>
+            <button onclick="updateQuantity(${index}, 1)">+</button>
+            <span class="item-subtotal">= $${subtotal.toFixed(2)}</span>
+          </div>
+        `;
+        cartItemsDiv.appendChild(div);
+      });
+
+      totalSpan.textContent = total.toFixed(2);
+      cartCountSpan.textContent = totalQuantity;
+    }
+
+    // Update quantity and re-render
+    function updateQuantity(index, change) {
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1); // remove if quantity zero or less
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    // Clear cart completely
+    function clearCart() {
+      if (confirm('Are you sure you want to clear the cart?')) {
+        cart = [];
+        localStorage.removeItem('cart');
+        renderCart();
+      }
+    }
+
+    // Initial render on page load
+    renderCart();
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Men - Fashion Store</title>
+  <link rel="stylesheet" href="homepagedesgin.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="men.html">Men</a></li>
+        <li><a href="women.html">Women</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="cart.html">🛒 Cart (<span id="cart-count">0</span>)</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Men's Collection</h1>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="product-card">
+      <img src="men1.jpg" alt="Men Product 1">
+      <p>Men's T-Shirt</p>
+      <p>$19.99</p>
+      <button onclick="addToCart('Men\'s T-Shirt', 19.99)">Add to Cart</button>
+    </div>
+
+    <div class="product-card">
+      <img src="men2.jpg" alt="Men Product 2">
+      <p>Men's Jeans</p>
+      <p>$39.99</p>
+      <button onclick="addToCart('Men\'s Jeans', 39.99)">Add to Cart</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Fashion Store</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
