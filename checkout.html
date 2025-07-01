@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Fashion Store</title>
+  <link rel="stylesheet" href="homepagedesgin.css" />
+  <style>
+    body {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+      font-family: Arial, sans-serif;
+    }
+    header nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 15px 0;
+      background: #333;
+      border-radius: 5px;
+    }
+    header nav ul li {
+      margin: 0 15px;
+    }
+    header nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    h2 {
+      text-align: center;
+    }
+    .checkout-form {
+      background: #f9f9f9;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 8px;
+    }
+    .checkout-form input,
+    .checkout-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .checkout-form button {
+      width: 100%;
+      padding: 10px;
+      background: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cart-summary {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="homepage.html">Home</a></li>
+        <li><a href="men.html">Men</a></li>
+        <li><a href="women.html">Women</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h2>Checkout</h2>
+
+  <div class="cart-summary" id="cart-summary">
+    <!-- Cart summary will be injected here -->
+  </div>
+
+  <form id="checkout-form" class="checkout-form">
+    <input type="text" id="fullName" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <textarea id="address" rows="3" placeholder="Shipping Address" required></textarea>
+    <button type="submit">Place Order</button>
+  </form>
+
+  <p class="success-message" id="success-message"></p>
+
+  <script>
+    // Render cart summary
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartSummary = document.getElementById('cart-summary');
+    const successMessage = document.getElementById('success-message');
+
+    if (cart.length === 0) {
+      cartSummary.innerHTML = "<p>Your cart is empty. <a href='shop.html'>Go shopping</a></p>";
+      document

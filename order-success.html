@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Confirmation - Fashion Store</title>
+  <link rel="stylesheet" href="homepagedesgin.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .message-box {
+      max-width: 500px;
+      margin: auto;
+      background-color: #f9f9f9;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .message-box h2 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    .message-box p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+    .message-box a {
+      display: inline-block;
+      padding: 12px 25px;
+      background-color: #ff4081;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .message-box a:hover {
+      background-color: #e03573;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="message-box">
+    <h2>🎉 Thank You for Your Order!</h2>
+    <p id="thanks-user">Your order has been placed successfully.</p>
+    <a href="homepage.html">Back to Home</a>
+  </div>
+
+  <script>
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.name) {
+      document.getElementById('thanks-user').textContent = `Thanks, ${user.name}! Your order has been placed successfully.`;
+    }
+    // Clear cart after order
+    localStorage.removeItem('cart');
+  </script>
+
+</body>
+</html>
