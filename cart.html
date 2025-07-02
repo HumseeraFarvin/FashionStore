@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Your Cart - Fashion Store</title>
+  <title>🛒 Your Cart - Fashion Store</title>
   <link rel="stylesheet" href="homepagedesgin.css" />
   <style>
     body {
-      max-width: 700px;
+      max-width: 900px;
       margin: 40px auto;
       padding: 0 20px;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
     }
 
     header nav ul {
@@ -20,10 +21,11 @@
       padding: 15px 0;
       background: #333;
       border-radius: 5px;
+      flex-wrap: wrap;
     }
 
     header nav ul li {
-      margin: 0 15px;
+      margin: 8px 15px;
     }
 
     header nav ul li a {
@@ -34,28 +36,37 @@
 
     h2 {
       text-align: center;
+      margin-top: 30px;
     }
 
     .cart-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
+      justify-content: space-between;
+      padding: 15px;
       border-bottom: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.05);
     }
 
     .item-info {
-      flex: 1;
+      flex: 2;
+    }
+
+    .item-info strong {
+      font-size: 1.1rem;
     }
 
     .item-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .item-controls button {
-      padding: 5px 10px;
+      padding: 6px 12px;
       font-size: 1rem;
       background-color: #ff4081;
       color: white;
@@ -71,8 +82,8 @@
     .total {
       text-align: right;
       font-weight: bold;
-      margin-top: 20px;
       font-size: 1.2rem;
+      margin-top: 10px;
     }
 
     .empty-cart {
@@ -82,18 +93,20 @@
       color: gray;
     }
 
-    .checkout-btn {
-      display: block;
-      margin: 30px auto 0;
-      padding: 12px 25px;
+    .checkout-btn, .clear-btn {
+      display: inline-block;
+      padding: 10px 20px;
       font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 20px 10px 0 0;
+    }
+
+    .checkout-btn {
       background-color: #28a745;
       color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
+      float: right;
     }
 
     .checkout-btn:hover {
@@ -101,24 +114,39 @@
     }
 
     .clear-btn {
-      float: right;
-      margin-top: 20px;
       background-color: #dc3545;
       color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
     }
 
     .clear-btn:hover {
       background-color: #b52a3a;
     }
+
+    @media (max-width: 600px) {
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .item-controls {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .checkout-btn, .clear-btn {
+        width: 100%;
+        float: none;
+      }
+
+      .total {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navigation Header -->
   <header>
     <nav>
       <ul>
@@ -126,7 +154,6 @@
         <li><a href="shop.html">Shop</a></li>
         <li><a href="men.html">Men</a></li>
         <li><a href="women.html">Women</a></li>
-        <li><a href="login.html">Login</a></li>
         <li><a href="cart.html">Cart (<span id="cart-count">0</span>)</a></li>
       </ul>
     </nav>
@@ -139,10 +166,73 @@
   <p class="total">Total: $<span id="cart-total">0.00</span></p>
 
   <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
-
   <a class="checkout-btn" href="checkout.html">Proceed to Checkout</a>
 
   <script>
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    const cartItemsDiv = document.getElementById
+    const cartItemsDiv = document.getElementById('cart-items');
+    const totalSpan = document.getElementById('cart-total');
+    const cartCount = document.getElementById('cart-count');
+
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+        totalSpan.textContent = '0.00';
+        cartCount.textContent = '0';
+        return;
+      }
+
+      let total = 0;
+      let totalQty = 0;
+
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        totalQty += item.quantity;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div class="item-info">
+            <strong>${item.name}</strong><br>
+            <small>$${item.price.toFixed(2)} each</small>
+          </div>
+          <div class="item-controls">
+            <button onclick="updateQuantity(${index}, -1)">−</button>
+            <span>${item.quantity}</span>
+            <button onclick="updateQuantity(${index}, 1)">+</button>
+            <span>= $${subtotal.toFixed(2)}</span>
+          </div>
+        `;
+        cartItemsDiv.appendChild(div);
+      });
+
+      totalSpan.textContent = total.toFixed(2);
+      cartCount.textContent = totalQty;
+    }
+
+    function updateQuantity(index, change) {
+      cart[index].quantity += change;
+      if (cart[index].quantity <= 0) {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function clearCart() {
+      if (confirm('Are you sure you want to clear the cart?')) {
+        cart = [];
+        localStorage.removeItem('cart');
+        renderCart();
+      }
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>
