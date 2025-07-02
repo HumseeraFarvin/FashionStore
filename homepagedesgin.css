@@ -54,7 +54,7 @@ header nav ul li a:hover {
 }
 
 .cta-button {
-    background-color: #3498db;
+    background-color: #7da424;
     color: white;
     padding: 15px 30px;
     text-decoration: none;
@@ -92,9 +92,9 @@ header nav ul li a:hover {
 }
 
 footer {
-    background-color: #333;
+    background-color: #334;
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
 }
 
